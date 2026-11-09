@@ -550,6 +550,7 @@
           <span class="challenge-type">Quotidien</span>
           <h3>Élan du jour</h3>
           <p>Valide 3 missions différentes aujourd’hui.</p>
+          <button type="button" class="challenge-play" onclick="launchChallenge('daily')">▶ Jouer</button>
           <div class="progress-row"><span id="challengeDailyProgress">0 / 3</span><b>+120 XP • +6 ETS</b></div>
           <div class="progress"><i id="challengeDailyBar" style="width:0%"></i></div>
           <button type="button" class="challenge-claim" id="challengeDailyClaim" disabled>En cours</button>
@@ -559,6 +560,7 @@
           <span class="challenge-type">Hebdomadaire</span>
           <h3>Sans filet</h3>
           <p>Remporte 3 parties contre l’IA sans demander d’indice.</p>
+          <button type="button" class="challenge-play" onclick="launchChallenge('ai')">▶ Jouer</button>
           <div class="progress-row"><span id="challengeAIProgress">0 / 3</span><b>+300 XP • +15 ETS</b></div>
           <div class="progress"><i id="challengeAIBar" style="width:0%"></i></div>
           <button type="button" class="challenge-claim" id="challengeAIClaim" disabled>En cours</button>
@@ -568,9 +570,40 @@
           <span class="challenge-type">Campagne</span>
           <h3>Briseur de Boss</h3>
           <p>Vaincs un Boss de monde cette semaine.</p>
+          <button type="button" class="challenge-play" onclick="launchChallenge('boss')">▶ Jouer</button>
           <div class="progress-row"><span id="challengeBossProgress">0 / 1</span><b>+250 XP • +13 ETS</b></div>
           <div class="progress"><i id="challengeBossBar" style="width:0%"></i></div>
           <button type="button" class="challenge-claim" id="challengeBossClaim" disabled>En cours</button>
+        </article>
+
+        <article class="challenge-card reveal" data-challenge="daily-sprint">
+          <span class="challenge-type">Personnel</span>
+          <h3>Sprint d’acier</h3>
+          <p>Valide 5 missions différentes aujourd’hui.</p>
+          <button type="button" class="challenge-play" onclick="launchChallenge('sprint')">▶ Jouer</button>
+          <div class="progress-row"><span id="challengeSprintProgress">0 / 5</span><b>+200 XP • +10 ETS</b></div>
+          <div class="progress"><i id="challengeSprintBar" style="width:0%"></i></div>
+          <button type="button" class="challenge-claim" id="challengeSprintClaim" disabled>En cours</button>
+        </article>
+
+        <article class="challenge-card reveal" data-challenge="weekly-veteran">
+          <span class="challenge-type">Hebdomadaire</span>
+          <h3>Guerrier de l’IA</h3>
+          <p>Remporte 5 victoires contre l’IA cette semaine.</p>
+          <button type="button" class="challenge-play" onclick="launchChallenge('veteran')">▶ Jouer</button>
+          <div class="progress-row"><span id="challengeVeteranProgress">0 / 5</span><b>+400 XP • +20 ETS</b></div>
+          <div class="progress"><i id="challengeVeteranBar" style="width:0%"></i></div>
+          <button type="button" class="challenge-claim" id="challengeVeteranClaim" disabled>En cours</button>
+        </article>
+
+        <article class="challenge-card reveal" data-challenge="weekly-conquerant">
+          <span class="challenge-type">Campagne</span>
+          <h3>Chasseur de Trônes</h3>
+          <p>Vaincs 3 Boss de monde cette semaine.</p>
+          <button type="button" class="challenge-play" onclick="launchChallenge('conquerant')">▶ Jouer</button>
+          <div class="progress-row"><span id="challengeConquerantProgress">0 / 3</span><b>+750 XP • +37 ETS</b></div>
+          <div class="progress"><i id="challengeConquerantBar" style="width:0%"></i></div>
+          <button type="button" class="challenge-claim" id="challengeConquerantClaim" disabled>En cours</button>
         </article>
       </div>
     </section>
@@ -1179,60 +1212,55 @@
       <div class="shop-collection-progress">
         <div class="shop-collection-progress-head">
           <span>Collection d’échiquiers</span>
-          <strong id="shopCollectionProgressText">1 / 12</strong>
+          <strong id="shopCollectionProgressText">1 / 18</strong>
         </div>
         <div class="shop-collection-progress-track"><i id="shopCollectionProgressBar"></i></div>
       </div>
       
-      <div class="shop-search-row">
-        <label class="shop-search-box">
-          <span aria-hidden="true">⌕</span>
-          <input id="shopBoardSearch" type="search" placeholder="Rechercher un échiquier…" autocomplete="off" aria-label="Rechercher un échiquier">
-        </label>
+      <div class="shop-toolbar">
+        <div class="shop-toolbar-right">
+          <select id="shopBoardSort" class="shop-sort" aria-label="Trier les échiquiers">
+            <option value="smart">Pertinence</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+          </select>
+          <button type="button" class="shop-history-btn" id="shopHistoryBtn">Historique</button>
+        </div>
+      </div>
+      <div class="shop-toolbar-row2">
+        <div class="shop-filter-row" role="group" aria-label="Statut">
+          <button type="button" class="shop-filter active" data-shop-filter="all">Tous</button>
+          <button type="button" class="shop-filter" data-shop-filter="available">À acheter</button>
+          <button type="button" class="shop-filter" data-shop-filter="owned">Possédés</button>
+          <button type="button" class="shop-filter" data-shop-filter="favorites">Favoris</button>
+        </div>
+        <details class="shop-more-filters">
+          <summary>Filtres avancés</summary>
+          <div class="shop-rarity-row" role="group" aria-label="Filtrer par rareté">
+            <button type="button" class="shop-rarity-filter active" data-rarity-filter="all">Toutes raretés</button>
+            <button type="button" class="shop-rarity-filter" data-rarity-filter="Commun">Commun</button>
+            <button type="button" class="shop-rarity-filter" data-rarity-filter="Rare">Rare</button>
+            <button type="button" class="shop-rarity-filter" data-rarity-filter="Épique">Épique</button>
+            <button type="button" class="shop-rarity-filter" data-rarity-filter="Légendaire">Légendaire</button>
+            <button type="button" class="shop-rarity-filter" data-rarity-filter="Mythique">Mythique</button>
+          </div>
+          <div class="shop-rarity-row" role="group" aria-label="Options">
+            <button type="button" class="shop-affordable-toggle" id="shopAffordableToggle" aria-pressed="false">Solde suffisant</button>
+            <button type="button" class="shop-affordable-toggle" id="shopHideOwnedToggle" aria-pressed="false">Masquer possédés</button>
+            <select id="shopPriceRange" class="shop-price-range" aria-label="Filtrer par prix">
+              <option value="all">Tous les prix</option>
+              <option value="0-1000">0–1 000 ETS</option>
+              <option value="1001-2000">1 001–2 000 ETS</option>
+              <option value="2001-3000">2 001–3 000 ETS</option>
+              <option value="3001+">3 001 ETS et +</option>
+            </select>
+          </div>
+        </details>
         <div class="shop-stat-pills" aria-label="Statistiques de la boutique">
           <span id="shopStatOwned">0 possédés</span>
           <span id="shopStatAffordable">0 accessibles</span>
           <span id="shopStatLegendary">0 légendaires</span>
         </div>
-      </div>
-      <div class="shop-rarity-row" role="group" aria-label="Filtrer par rareté">
-        <button type="button" class="shop-rarity-filter active" data-rarity-filter="all">Toutes raretés</button>
-        <button type="button" class="shop-rarity-filter" data-rarity-filter="Commun">Commun</button>
-        <button type="button" class="shop-rarity-filter" data-rarity-filter="Rare">Rare</button>
-        <button type="button" class="shop-rarity-filter" data-rarity-filter="Épique">Épique</button>
-        <button type="button" class="shop-rarity-filter" data-rarity-filter="Légendaire">Légendaire</button>
-        <button type="button" class="shop-affordable-toggle" id="shopAffordableToggle" aria-pressed="false">Solde suffisant</button>
-        <button type="button" class="shop-affordable-toggle" id="shopHideOwnedToggle" aria-pressed="false">Masquer possédés</button>
-        <select id="shopPriceRange" class="shop-price-range" aria-label="Filtrer par prix">
-          <option value="all">Tous les prix</option>
-          <option value="0-1000">0–1 000 ETS</option>
-          <option value="1001-2000">1 001–2 000 ETS</option>
-          <option value="2001-3000">2 001–3 000 ETS</option>
-          <option value="3001+">3 001 ETS et +</option>
-        </select>
-        <button type="button" class="shop-discover-btn" id="shopDiscoverBtn">Découverte aléatoire</button>
-      </div>
-<div class="shop-filter-row" role="group" aria-label="Filtres des échiquiers">
-        <button type="button" class="shop-filter active" data-shop-filter="all">Tous</button>
-        <button type="button" class="shop-filter" data-shop-filter="available">À acheter</button>
-        <button type="button" class="shop-filter" data-shop-filter="owned">Possédés</button>
-        <button type="button" class="shop-filter" data-shop-filter="favorites">Favoris</button>
-        <select id="shopBoardSort" class="shop-sort" aria-label="Trier les échiquiers">
-          <option value="smart">Pertinence</option>
-          <option value="price-asc">Prix croissant</option>
-          <option value="price-desc">Prix décroissant</option>
-        </select>
-        <button type="button" class="shop-history-btn" id="shopHistoryBtn">Historique</button>
-      </div>
-    </div>
-<div class="shop-insight-strip">
-      <div class="shop-recently-viewed">
-        <strong>Consultés récemment</strong>
-        <div id="shopRecentList" class="shop-recent-list"></div>
-      </div>
-      <div class="shop-milestones">
-        <strong>Collection</strong>
-        <div id="shopMilestoneList" class="shop-milestone-list"></div>
       </div>
     </div>
 <div class="shop-history-panel" id="shopHistoryPanel" aria-hidden="true">

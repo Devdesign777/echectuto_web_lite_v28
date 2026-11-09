@@ -13,7 +13,7 @@ export async function createClient() {
           try {
             cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
           } catch {
-            // Server Components cannot write cookies; apps/web/src/proxy.ts refreshes them.
+            // Server Components cannot write cookies; src/middleware.ts refreshes them via src/lib/supabase/proxy.ts.
           }
         },
       },

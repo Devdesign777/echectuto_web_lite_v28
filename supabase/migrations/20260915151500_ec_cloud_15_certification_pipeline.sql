@@ -35,6 +35,7 @@ begin
   return v_version;
 end $$;
 revoke all on function public.certify_mission_version(text,integer,bigint) from public, anon, authenticated;
+grant execute on function public.certify_mission_version(text,integer,bigint) to service_role;
 
 create or replace function public.quarantine_mission_version(p_mission_id text, p_version integer)
 returns void language sql security definer set search_path='' as $$
@@ -42,3 +43,4 @@ returns void language sql security definer set search_path='' as $$
   where mission_id=p_mission_id and version=p_version and certification_status in ('draft','certified');
 $$;
 revoke all on function public.quarantine_mission_version(text,integer) from public, anon, authenticated;
+grant execute on function public.quarantine_mission_version(text,integer) to service_role;
